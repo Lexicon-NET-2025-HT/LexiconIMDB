@@ -1,0 +1,26 @@
+﻿@model IndexViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<form asp-action="Filter" method="get">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" name="title" />
+        <div class="input-group-append">
+            <select class="form-control" name="genre" asp-items="@Model.Genres">
+                <option selected="selected" value="">Please select</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>
+
+<partial name="_MovieListPartial" model="@Model.Movies" />
+
+

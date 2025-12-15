@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LexiconImdb.Data;
 using LexiconImdb.Models.Entities;
+using LexiconImdb.Models.ViewModels;
 
 namespace LexiconImdb.Controllers
 {
@@ -36,6 +37,26 @@ namespace LexiconImdb.Controllers
                 model.Where(m => (int)m.Genre == genre);
 
             return View(nameof(Index), await model.ToListAsync()); 
+        }
+
+        public async Task<IActionResult> Index2()
+        {
+            var movies = await _context.Movies.ToListAsync();
+
+            var model = new IndexViewModel
+            {
+                Movies = movies,
+                Genres = movies.Select(m => m.Genre)
+                .Distinct()
+                .Select(g => new SelectListItem
+                {
+                    Text = g.ToString(),
+                    Value = g.ToString()
+                }).ToList()
+
+            };
+
+            return View(model); 
         }
 
         // GET: Movies/Details/5
