@@ -58,6 +58,35 @@ namespace LexiconImdb.Controllers
 
             return View(model); 
         }
+        public async Task<IActionResult> Filter2(IndexViewModel viewModel)
+        {
+            var movies = string.IsNullOrWhiteSpace(viewModel.Title) ?
+                _context.Movies :
+                _context.Movies.Where(m => m.Title.Contains(viewModel.Title));
+
+            movies = viewModel.Genre is null ?
+                movies :
+                movies.Where(m => m.Genre == viewModel.Genre);
+
+            var model = new IndexViewModel
+            {
+                Movies = await movies.ToListAsync(),
+                Genres = await GetGenresAsync()
+            };
+
+            return View(nameof(Index2), model);
+        }
+
+        private async Task<IEnumerable<SelectListItem>> GetGenresAsync()
+        {
+            return await _context.Movies.Select(m => m.Genre)
+                .Distinct()
+                .Select(g => new SelectListItem
+                {
+                    Text = g.ToString(),
+                    Value = g.ToString()
+                }).ToListAsync();
+        }
 
         // GET: Movies/Details/5
         public async Task<IActionResult> Details(int? id)
