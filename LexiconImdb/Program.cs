@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using LexiconImdb.Data;
 namespace LexiconImdb
 {
     public class Program
@@ -5,6 +8,8 @@ namespace LexiconImdb
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddDbContext<LexiconImdbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("LexiconImdbContext") ?? throw new InvalidOperationException("Connection string 'LexiconImdbContext' not found.")));
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -27,7 +32,7 @@ namespace LexiconImdb
             app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}")
+                pattern: "{controller=Movies}/{action=Index}/{id?}")
                 .WithStaticAssets();
 
             app.Run();
