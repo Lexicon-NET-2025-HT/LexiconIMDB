@@ -6,6 +6,7 @@
         Thriller,
         Comedy,
         Drama,
-        Action
+        Action,
+        Romance
     }
 }
