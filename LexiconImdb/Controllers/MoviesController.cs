@@ -78,7 +78,18 @@ namespace LexiconImdb.Controllers
             };
 
             return View(nameof(Index2), model);
-        }        
+        }
+        
+        public async Task<IActionResult> Index3()
+        {
+            var movies = await _context.Movies.ToListAsync();
+            var model = new IndexViewModel2
+            {
+                Movies = movies
+            };
+
+            return View(model);
+        }
 
         // GET: Movies/Details/5
         public async Task<IActionResult> Details(int? id)
