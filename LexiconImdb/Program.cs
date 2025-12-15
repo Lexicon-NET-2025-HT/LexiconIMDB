@@ -14,6 +14,11 @@ namespace LexiconImdb
 
 
             builder.Services.AddScoped<IGenreSelectListService, GenreSelectListService>();
+
+            //builder.Services.AddSingleton => Samma instans under hela applikationens livslängd
+            //builder.Services.AddScoped => Samma instans för hela requestet. 
+            //builder.Transient => Ny instans varje gång man behöver använda den. 
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
