@@ -32,6 +32,12 @@ namespace LexiconImdb
                 app.UseHsts();
             }
 
+            using(var scope = app.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<LexiconImdbContext>();
+                db.Database.Migrate(); 
+            }
+
             app.UseHttpsRedirection();
             app.UseRouting();
 
